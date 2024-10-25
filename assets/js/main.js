@@ -227,8 +227,8 @@ class FrameGenerator {
           .share({
             files: [file],
             title: 'Save the date for WordCamp Kerala 2024!',
-            text: "Let's connect at the event! Grab your tickets now: https://bit.ly/wck24",
-            url: "https://bit.ly/wck24"
+            text: "Let's connect at the event! Don't miss out.",
+            url: "https://kerala.wordcamp.org/2024/"
           })
           .then(() => console.log('Share was successful.'))
           .catch(console.error);
@@ -271,6 +271,7 @@ class FrameGenerator {
     const frameSource = [
       this.getAbsoluteImageUrl('assets/frames/attendee-tag.png'),
       this.getAbsoluteImageUrl('assets/frames/speaker-tag.png'),
+      this.getAbsoluteImageUrl('assets/frames/sponsor-tag.png'),
       this.getAbsoluteImageUrl('assets/frames/organizer-tag.png'),
       this.getAbsoluteImageUrl('assets/frames/volunteer-tag.png'),
     ];
