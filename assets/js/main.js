@@ -270,6 +270,9 @@ class FrameGenerator {
   initializeFrames() {
     const frameSource = [
       this.getAbsoluteImageUrl('assets/frames/attendee-tag.png'),
+      this.getAbsoluteImageUrl('assets/frames/speaker-tag.png'),
+      this.getAbsoluteImageUrl('assets/frames/organizer-tag.png'),
+      this.getAbsoluteImageUrl('assets/frames/volunteer-tag.png'),
     ];
     frameSource.forEach((src) => {
       const frameImg = new Image();
