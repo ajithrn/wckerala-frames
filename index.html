@@ -34,18 +34,21 @@
 
       <div class="section-wrapper">
         <div class="section-heading">
-          <h3>Upload your picture</h3>
-          <p>Recommend size 500x500 pixels or larger. Please ensure that your face is positioned in the center of the image for best results.</p>
+          <h3>Upload your picture or use Gravatar</h3>
+          <p>Recommend size 500x500 pixels or larger. Please ensure that your face is centered in the image for best results. <br> Alternatively, enter your email to use your Gravatar image.</p>
         </div>
         <div class="photo-upload">
-          <input type="file" id="uploadImage" class="btn btn-upload" accept="image/*" />
+          <div class="upload-controls">
+            <input type="file" id="uploadImage" class="btn btn-upload" accept="image/*" />
+            <button id="clearImage" class="btn btn-secondary" style="display: none;">Clear Image</button>
+          </div>
         </div>
       </div>
 
       <div class="section-wrapper">
         <div class="section-heading">
           <h3>Enter your details</h3>
-          <p>Enter your name and company to personalize your poster, or leave it blank to disable.
+          <p>Enter your name, company and email (fetch image from gravatar) to personalize your poster, or leave it blank to disable.
           </p>
         </div>
         <div class="user-details">
@@ -56,6 +59,10 @@
           <div class="user-details-item">
             <input type="text" id="companyName" placeholder="Enter Company Name" class="input-field">
             <label for="companyName">Company Name</label>
+          </div>
+          <div class="user-details-item">
+            <input type="email" id="email" placeholder="Enter Your Email" class="input-field">
+            <label for="email">Your Email</label>
           </div>
         </div>
       </div>
@@ -97,6 +104,8 @@
     <p class="build">Made by <a href="https://ajithrn.com" title="visit the website">ajith_rn</a></p>
     <p class="source"> <a href="https://github.com/ajithrn//wckerala-frames/" target="_blank" title="View the source code">Source Code</a></p>
   </div>
+  <!-- Add MD5 library before main.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.19.0/js/md5.min.js"></script>
   <script src="assets/js/main.js"></script>
 </body>
 

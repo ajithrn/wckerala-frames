@@ -1,15 +1,25 @@
-# WordCamp Kerala 2024 Profile Picture Generator
+# WordCamp Kerala 2024 Personalized Poster Generator
 
-Generate a customized profile picture for WordCamp Kerala 2024 by uploading your own picture, adding your details, and applying a predefined frame.
+Generate a customized poster for WordCamp Kerala 2024 by uploading your own picture, adding your details, and applying a predefined frame.
 
 ## Features
 
-- Upload your own picture to generate a personalized profile picture
+- Upload your own picture to generate a personalized poster
+- Use Gravatar for image (automatically fetched using email)
+- Clear uploaded images with a single click
 - Enter your name and company details
+- Pre-fill user data via URL parameters
 - Apply a WordCamp Kerala 2024 frame to your picture
-- Preview your customized profile picture
-- Download the generated profile picture
-- Share the profile picture directly (using Web Share API where supported)
+- Preview your customized poster
+- Download the generated poster
+- Share the poster directly (using Web Share API where supported)
+
+## Image Priority
+
+The generator uses the following priority order for posters:
+1. Uploaded image (if available)
+2. Gravatar image (if valid email is provided via input or URL)
+3. Default placeholder image (if no other image is available)
 
 ## Installation
 
@@ -25,12 +35,24 @@ Generate a customized profile picture for WordCamp Kerala 2024 by uploading your
 
 ## Usage
 
-1. Click the "Upload" button to select your picture.
-2. Enter your name and company name in the provided input fields.
-3. The frame will be automatically applied to your uploaded image.
-4. Preview your customized profile picture.
-5. Click the "Download" button to save your profile picture.
-6. Click the "Share" button to share your profile picture (on supported browsers).
+### Direct Usage
+1. Click the "Upload" button to select your picture, or enter your email to use Gravatar
+2. Enter your name and company name in the provided input fields
+3. Click on a frame to generate your poster
+4. Preview your customized poster
+5. Click the "Download" button to save your poster
+6. Click the "Share" button to share your poster (on supported browsers)
+
+### URL Parameters
+You can pre-fill user data using URL parameters:
+```
+https://frames.wpkerala.org/?name=John%20Doe&company=WordPress&email=john@example.com
+```
+
+Available parameters:
+- `name`: User's name
+- `company`: Company name
+- `email`: Email address (will automatically fetch Gravatar if available)
 
 ## Technologies Used
 
@@ -38,6 +60,8 @@ Generate a customized profile picture for WordCamp Kerala 2024 by uploading your
 - CSS3 (SCSS)
 - JavaScript (ES6+)
 - Web Share API (with fallback for unsupported browsers)
+- Gravatar API
+- MD5 hashing (for Gravatar integration)
 
 ## Project Structure
 
@@ -56,9 +80,17 @@ The application is fully responsive and works well on various device sizes, from
 
 This project uses modern web technologies and is compatible with the latest versions of major browsers. The Web Share API is used for sharing, with a fallback option for unsupported browsers.
 
+## Security
+
+- Uses HTTPS for all external resources
+- Implements proper CORS handling for images
+- Secure Gravatar URL implementation
+- Safe URL parameter handling
+
 ## Credits
 
-- [WordCamp Kerala](https://kerala.wordcamp.org/2024/) for the event branding and frame design.
+- [WordCamp Kerala](https://kerala.wordcamp.org/2024/) for the event branding and frame design
+- [Gravatar](https://gravatar.com) for profile picture integration
 - Developed by [Ajith](https://ajithrn.com)
 
 ## License
@@ -71,4 +103,4 @@ Contributions, issues, and feature requests are welcome. Feel free to check [iss
 
 ## Support
 
-If you have any questions or need help with the profile picture generator, please open an issue or contact the WordCamp Kerala organizers.
+If you have any questions or need help with the poster generator, please open an issue or contact the WordCamp Kerala organizers.
