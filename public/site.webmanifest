@@ -1,0 +1,14 @@
+{
+  "name": "WP Kerala Frame Studio",
+  "short_name": "WP Kerala Frames",
+  "description": "Create and share community frames from WordPress events across Kerala.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f7faf9",
+  "theme_color": "#0d1f2d",
+  "icons": [
+    { "src": "/assets/brand/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/assets/brand/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/assets/brand/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

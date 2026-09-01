@@ -1,0 +1,14 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import FrameStudio from '../../components/FrameStudio.astro';
+import { events, getEvent } from '../../data/events.js';
+
+export function getStaticPaths() {
+  return events.map((event) => ({ params: { slug: event.slug }, props: { event } }));
+}
+
+const event = Astro.props.event ?? getEvent(Astro.params.slug);
+---
+<Layout title={event.title} description={event.description} event={event}>
+  <FrameStudio event={event} />
+</Layout>

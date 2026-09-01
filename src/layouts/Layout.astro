@@ -1,0 +1,60 @@
+---
+import '../styles/global.css';
+
+const { title, description, event } = Astro.props;
+const pageTitle = title ? `${title} · WP Kerala Frame Studio` : 'WP Kerala Frame Studio';
+const pageDescription = description ?? 'Create and share community frames from WordPress events across Kerala.';
+const logo = event?.logo ?? '/assets/events/wpfc26/images/logo.png';
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={pageDescription} />
+    <meta name="theme-color" content="#0d1f2d" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/brand/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/brand/favicon-16.png" />
+    <link rel="apple-touch-icon" href="/assets/brand/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="canonical" href={Astro.url} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/assets/brand/icon-512.png" />
+    <meta name="twitter:card" content="summary" />
+    <title>{pageTitle}</title>
+  </head>
+  <body>
+    <div class="site-noise" aria-hidden="true"></div>
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="WP Kerala Frame Studio home">
+        <img class="brand-mark" src="/assets/brand/wp-kerala-icon.png" alt="" width="38" height="38" />
+        <span class="brand-copy">
+          <strong>WP Kerala</strong>
+          <small>Frame Studio</small>
+        </span>
+      </a>
+      {event && (
+        <a class="header-event" href={event.website} target="_blank" rel="noopener noreferrer" aria-label={`${event.title} event site`}>
+          <img src={logo} alt={`${event.title} logo`} />
+        </a>
+      )}
+    </header>
+    <main>
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <div>
+        <strong>WP Kerala Frame Studio</strong>
+        <p>Community-made frames for WordPress events in Kerala.</p>
+      </div>
+      <div class="footer-links">
+        <a href="/events/">Browse events</a>
+        <a href="https://github.com/ajithrn/wckerala-frames" target="_blank" rel="noopener noreferrer">Source code</a>
+      </div>
+      <p class="footer-credit">Made with care by <a href="https://ajithrn.com" target="_blank" rel="noopener noreferrer">ajith_rn</a></p>
+    </footer>
+  </body>
+</html>

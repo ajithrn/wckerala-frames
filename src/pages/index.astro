@@ -1,0 +1,8 @@
+---
+import Layout from '../layouts/Layout.astro';
+import FrameStudio from '../components/FrameStudio.astro';
+import { defaultEvent } from '../data/events.js';
+---
+<Layout title={defaultEvent.title} description={defaultEvent.description} event={defaultEvent}>
+  <FrameStudio event={defaultEvent} />
+</Layout>

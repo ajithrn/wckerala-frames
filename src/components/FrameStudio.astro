@@ -1,0 +1,165 @@
+---
+const { event } = Astro.props;
+const configId = `event-config-${event.slug}`;
+---
+<section class="studio-page page-shell" data-frame-studio data-config-id={configId}>
+  <div class="studio-hero">
+    <div class="studio-hero-copy">
+      <p class="eyebrow">{event.status === 'active' ? 'Current event' : 'From the archive'} <span class="eyebrow-dot"></span> {event.dateLabel}</p>
+      <h1>{event.heroTitle}</h1>
+      <p class="hero-lede">Create a frame that says you’re part of <strong>{event.title}</strong>. Your photo stays in your browser while you make and download your poster.</p>
+      <div class="event-meta">
+        <span class="meta-icon" aria-hidden="true">⌖</span>
+        <span>{event.venue}</span>
+      </div>
+    </div>
+    <div class="studio-hero-event">
+      <img src={event.logo} alt={`${event.title} logo`} />
+      {event.status === 'active' && <span class="live-badge"><span></span> Active event</span>}
+    </div>
+  </div>
+
+  <div class="studio-layout">
+    <div class="studio-controls">
+      <div class="studio-progress" aria-label="Frame creation steps">
+        <span class="progress-step is-current"><b>01</b><span>Photo</span></span>
+        <span class="progress-line"></span>
+        <span class="progress-step"><b>02</b><span>Frame</span></span>
+        <span class="progress-line"></span>
+        <span class="progress-step"><b>03</b><span>Share</span></span>
+      </div>
+
+      <section class="control-card control-card-photo" aria-labelledby="photo-heading">
+        <div class="card-heading">
+          <span class="step-number">01</span>
+          <div>
+            <p class="eyebrow">Start here</p>
+            <h2 id="photo-heading">Add your photo</h2>
+          </div>
+        </div>
+        <p class="card-description">Choose a clear photo where your face is easy to see. Everything is processed locally — nothing is uploaded.</p>
+        <button class="upload-dropzone" id="uploadTrigger" type="button" aria-controls="uploadImage">
+          <span class="upload-icon" aria-hidden="true">↥</span>
+          <span><strong>Choose an image</strong><small>PNG, JPG or WebP · up to 10 MB</small></span>
+        </button>
+        <input id="uploadImage" class="visually-hidden" type="file" accept="image/png,image/jpeg,image/webp" />
+        <div class="upload-file-row" id="uploadFileRow" hidden>
+          <span class="file-status-icon" aria-hidden="true">✓</span>
+          <span id="uploadFileName">Photo selected</span>
+          <button class="text-button" id="clearImage" type="button">Remove</button>
+        </div>
+        {event.composition.allowGravatar && (
+          <details class="advanced-option">
+            <summary>Use a Gravatar instead</summary>
+            <div class="advanced-option-body">
+              <label for="email">Gravatar email</label>
+              <input id="email" type="email" autocomplete="email" placeholder="you@example.com" />
+              <small>Only the lowercase email hash is used to request the image.</small>
+            </div>
+          </details>
+        )}
+        <p class="status-message" id="imageStatus" role="status" aria-live="polite"></p>
+      </section>
+
+      {event.composition.showProfileFields && (
+        <section class="control-card control-card-details" aria-labelledby="details-heading">
+          <div class="card-heading">
+            <span class="step-number">02</span>
+            <div>
+              <p class="eyebrow">Optional</p>
+              <h2 id="details-heading">Add your details</h2>
+            </div>
+          </div>
+          <p class="card-description">Your name and company are drawn on the frame below your photo. Leave them blank to skip.</p>
+          <div class="field-stack">
+            <label for="userName">Your name <input id="userName" type="text" autocomplete="name" placeholder="Your name" maxlength="80" /></label>
+            <label for="companyName">Company or project <input id="companyName" type="text" autocomplete="organization" placeholder="Company or project" maxlength="100" /></label>
+          </div>
+        </section>
+      )}
+
+      <section class="control-card frame-card" aria-labelledby="frame-heading">
+        <div class="card-heading">
+          <span class="step-number">{event.composition.showProfileFields ? '03' : '02'}</span>
+          <div>
+            <p class="eyebrow">Pick a role</p>
+            <h2 id="frame-heading">Choose your frame</h2>
+          </div>
+        </div>
+        <p class="card-description">Select the version that best describes how you’re joining the event.</p>
+        <div class="frame-grid" id="framesContainer">
+          {event.frames.map((frame: { id: string; label: string; caption: string; src: string }, index: number) => (
+            <button class:list={{ 'frame-option': true, 'is-selected': index === 0 }} type="button" data-frame-id={frame.id} aria-pressed={index === 0}>
+              <span class="frame-thumbnail"><img src={frame.src} alt="" loading="lazy" /></span>
+              <span class="frame-option-copy"><strong>{frame.label}</strong><small>{frame.caption}</small></span>
+              <span class="frame-check" aria-hidden="true">✓</span>
+            </button>
+          ))}
+        </div>
+      </section>
+
+      <section class="control-card control-card-crop" aria-labelledby="adjust-heading">
+        <div class="card-heading">
+          <span class="step-number">{event.composition.showProfileFields ? '04' : '03'}</span>
+          <div>
+            <p class="eyebrow">Fine-tune</p>
+            <h2 id="adjust-heading">Adjust the crop</h2>
+          </div>
+        </div>
+        <p class="card-description">Use the controls to position your face inside the frame. You can always reset the crop.</p>
+        <div class="range-control">
+          <div class="range-label"><label for="zoomControl">Zoom</label><output id="zoomValue" for="zoomControl">1×</output></div>
+          <input id="zoomControl" type="range" min="1" max="2.5" step="0.05" value="1" />
+        </div>
+        <div class="range-control">
+          <div class="range-label"><label for="horizontalControl">Horizontal position</label><output id="horizontalValue" for="horizontalControl">Centre</output></div>
+          <input id="horizontalControl" type="range" min="-1" max="1" step="0.01" value="0" />
+        </div>
+        <div class="range-control">
+          <div class="range-label"><label for="verticalControl">Vertical position</label><output id="verticalValue" for="verticalControl">Centre</output></div>
+          <input id="verticalControl" type="range" min="-1" max="1" step="0.01" value="0" />
+        </div>
+        <button class="secondary-button compact-button" id="resetCrop" type="button">Reset crop</button>
+      </section>
+    </div>
+
+    <aside class="preview-panel" aria-labelledby="preview-heading">
+      <div class="preview-panel-header">
+        <div>
+          <p class="eyebrow">Live preview</p>
+          <h2 id="preview-heading">Your community frame</h2>
+        </div>
+      </div>
+      <div class="canvas-wrap">
+        <canvas id="resultCanvas" width={event.canvas.width} height={event.canvas.height} aria-label={`Preview of your ${event.title} frame`}></canvas>
+        <div class="canvas-loading" id="canvasLoading" hidden><span class="spinner"></span><span>Rendering…</span></div>
+      </div>
+      <p class="preview-hint" id="previewHint">Your preview updates as you adjust the image.</p>
+      <div class="action-area">
+        <button class="primary-button" id="downloadBtn" type="button"><span aria-hidden="true">↓</span> Download PNG</button>
+        <button class="secondary-button" id="copyImage" type="button" data-label="Copy image">
+          <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <span class="copy-image-label">Copy image</span>
+        </button>
+        <button class="secondary-button" id="shareBtn" type="button"><span aria-hidden="true">↗</span> Share frame</button>
+      </div>
+      <div class="fallback-share" id="fallbackShare" hidden>
+        <strong>Share your frame</strong>
+        <p>Pick a network — we’ll copy your frame to the clipboard so you can paste it straight into the post.</p>
+        <div class="share-links" id="shareLinks" aria-label="Share to social networks"></div>
+        <button class="text-button" id="copyLink" type="button">Copy event link</button>
+      </div>
+      <p class="status-message preview-status" id="renderStatus" role="status" aria-live="polite"></p>
+    </aside>
+  </div>
+
+  <div class="studio-bottom-note">
+    <span class="note-check" aria-hidden="true">✓</span>
+    <span><strong>Private by design.</strong> Your photo is composited in this browser and is never sent to our server.</span>
+  </div>
+
+  <script type="application/json" id={configId} is:inline set:html={JSON.stringify(event)}></script>
+</section>
+<script>
+  import '../scripts/frame-studio.js';
+</script>
