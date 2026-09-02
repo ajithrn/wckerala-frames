@@ -2,6 +2,28 @@
 
 All notable changes to this project are documented here.
 
+## [3.2.0]
+
+### Added
+- Dark theme support with automatic device preference detection (`prefers-color-scheme`), real-time OS theme change listener, persistent `localStorage` toggle, and dynamic `<meta name="theme-color">` sync.
+- High-contrast official dark mode logos (`logo-dark.png`) for WP Future Conclave 2026 and WordCamp Kerala 2024.
+- Header toolbar layout featuring active event logo, vertical separator divider, and theme toggle button.
+- Responsive mobile header event icon: automatically switches to the compact square site icon on mobile screens.
+- Self-hosted variable `.woff2` font files (`dm-sans.woff2`, `space-grotesk.woff2`) in `/public/assets/fonts/` with font preloading.
+- Dedicated architecture and schema reference documentation in `ARCHITECTURE.md`.
+
+### Changed
+- Refactored JavaScript into focused modules: `canvas-renderer.js`, `social-share.js`, `crypto.js`, and `frame-studio.js`.
+- Cleaned codebase comments: removed redundant inline commentary in function bodies while keeping essential 1-line docblocks for top-level exports.
+- Quantized and optimized brand and logo image assets with FastOctree compression, reducing payload by up to 97%.
+- Improved WCAG AA/AAA color contrast ratios across dark and light themes for all badges, text elements, and progress steps.
+
+### Fixed
+- Fixed potential `ObjectURL` leak in file handling by ensuring revoked object URLs in `catch` blocks.
+- Fixed malformed Moon SVG arc path that caused browser console rendering warnings.
+- Fixed accessible form labeling on hidden file upload input and resolved accessible link name mismatch.
+- Eliminated external render-blocking font requests to Google Fonts servers.
+
 ## [3.1.0]
 
 ### Added
@@ -38,4 +60,4 @@ All notable changes to this project are documented here.
 
 ## [2.x]
 
-- Original single-page WordCamp Kerala 2024 poster generator (HTML, SCSS, and vanilla JavaScript). 
+- Original single-page WordCamp Kerala 2024 poster generator (HTML, SCSS, and vanilla JavaScript).

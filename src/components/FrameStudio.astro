@@ -14,7 +14,8 @@ const configId = `event-config-${event.slug}`;
       </div>
     </div>
     <div class="studio-hero-event">
-      <img src={event.logo} alt={`${event.title} logo`} />
+      <img class="logo-light" src={event.logo} alt={`${event.title} logo`} width="350" height="130" />
+      <img class="logo-dark" src={event.logoDark || event.logo} alt={`${event.title} logo`} width="692" height="254" />
       {event.status === 'active' && <span class="live-badge"><span></span> Active event</span>}
     </div>
   </div>
@@ -42,7 +43,8 @@ const configId = `event-config-${event.slug}`;
           <span class="upload-icon" aria-hidden="true">↥</span>
           <span><strong>Choose an image</strong><small>PNG, JPG or WebP · up to 10 MB</small></span>
         </button>
-        <input id="uploadImage" class="visually-hidden" type="file" accept="image/png,image/jpeg,image/webp" />
+        <label for="uploadImage" class="visually-hidden">Upload photo</label>
+        <input id="uploadImage" class="visually-hidden" type="file" accept="image/png,image/jpeg,image/webp" aria-label="Upload photo" />
         <div class="upload-file-row" id="uploadFileRow" hidden>
           <span class="file-status-icon" aria-hidden="true">✓</span>
           <span id="uploadFileName">Photo selected</span>
@@ -90,7 +92,7 @@ const configId = `event-config-${event.slug}`;
         <div class="frame-grid" id="framesContainer">
           {event.frames.map((frame: { id: string; label: string; caption: string; src: string }, index: number) => (
             <button class:list={{ 'frame-option': true, 'is-selected': index === 0 }} type="button" data-frame-id={frame.id} aria-pressed={index === 0}>
-              <span class="frame-thumbnail"><img src={frame.src} alt="" loading="lazy" /></span>
+              <span class="frame-thumbnail"><img src={frame.src} alt="" loading="lazy" width="52" height="52" /></span>
               <span class="frame-option-copy"><strong>{frame.label}</strong><small>{frame.caption}</small></span>
               <span class="frame-check" aria-hidden="true">✓</span>
             </button>

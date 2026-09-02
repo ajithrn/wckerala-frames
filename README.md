@@ -1,6 +1,6 @@
 # WP Kerala Frame Studio
 
-![Version](https://img.shields.io/badge/version-3.1.0-15b9a7)
+![Version](https://img.shields.io/badge/version-3.2.0-15b9a7)
 ![Built with Astro](https://img.shields.io/badge/built%20with-Astro-0d1f2d)
 ![License: MIT](https://img.shields.io/badge/license-MIT-0a66c2)
 

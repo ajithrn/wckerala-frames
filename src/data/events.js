@@ -44,6 +44,9 @@ const legacyFrames = [
   { id: 'volunteer', label: 'Volunteer', caption: 'Volunteer', src: '/assets/events/wordcamp-kerala-2024/frames/volunteer.png' }
 ];
 
+/**
+ * Registry of supported WordPress community events.
+ */
 export const events = [
   {
     slug: 'wpfc26',
@@ -55,7 +58,9 @@ export const events = [
     description: 'A future-focused WordPress gathering for builders, makers, speakers, sponsors, and the wider community.',
     heroTitle: 'Show up for the future of WordPress.',
     website: 'https://events.wordpress.org/kozhikode/2026/WP-Future',
+    icon: '/assets/events/wpfc26/images/icon.png',
     logo: '/assets/events/wpfc26/images/logo.png',
+    logoDark: '/assets/events/wpfc26/images/logo-dark.png',
     canvas: { width: 1080, height: 1080 },
     placeholder: '/assets/events/wpfc26/images/logo.png',
     composition: {
@@ -90,6 +95,7 @@ export const events = [
     heroTitle: 'Revisit your WordCamp Kerala 2024 frame.',
     website: 'https://kerala.wordcamp.org/2024/',
     logo: '/assets/events/wordcamp-kerala-2024/logo.png',
+    logoDark: '/assets/events/wordcamp-kerala-2024/logo-dark.png',
     canvas: { width: 1920, height: 1920 },
     placeholder: '/assets/images/placeholder.jpg',
     composition: {
@@ -109,6 +115,9 @@ export const events = [
 
 export const defaultEvent = events.find((event) => event.status === 'active') ?? events[0];
 
+/**
+ * Returns event configuration by slug, falling back to default active event.
+ */
 export function getEvent(slug) {
   return events.find((event) => event.slug === slug) ?? defaultEvent;
 }

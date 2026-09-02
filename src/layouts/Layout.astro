@@ -1,10 +1,10 @@
 ---
+import '../styles/fonts.css';
 import '../styles/global.css';
 
 const { title, description, event } = Astro.props;
 const pageTitle = title ? `${title} · WP Kerala Frame Studio` : 'WP Kerala Frame Studio';
 const pageDescription = description ?? 'Create and share community frames from WordPress events across Kerala.';
-const logo = event?.logo ?? '/assets/events/wpfc26/images/logo.png';
 ---
 <!doctype html>
 <html lang="en">
@@ -12,7 +12,9 @@ const logo = event?.logo ?? '/assets/events/wpfc26/images/logo.png';
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={pageDescription} />
-    <meta name="theme-color" content="#0d1f2d" />
+    <meta name="theme-color" content="#0b1620" id="metaThemeColor" />
+    <link rel="preload" href="/assets/fonts/space-grotesk.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/fonts/dm-sans.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/brand/favicon-32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/assets/brand/favicon-16.png" />
@@ -25,22 +27,43 @@ const logo = event?.logo ?? '/assets/events/wpfc26/images/logo.png';
     <meta property="og:image" content="/assets/brand/icon-512.png" />
     <meta name="twitter:card" content="summary" />
     <title>{pageTitle}</title>
+    <script is:inline>
+      const savedTheme = typeof localStorage !== 'undefined' ? localStorage.getItem('theme') : null;
+      const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = savedTheme || (systemDark ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+      const metaThemeColor = document.getElementById('metaThemeColor');
+      if (metaThemeColor) {
+        metaThemeColor.setAttribute('content', theme === 'dark' ? '#0b1620' : '#f7faf9');
+      }
+    </script>
   </head>
   <body>
     <div class="site-noise" aria-hidden="true"></div>
     <header class="site-header">
-      <a class="brand" href="/" aria-label="WP Kerala Frame Studio home">
-        <img class="brand-mark" src="/assets/brand/wp-kerala-icon.png" alt="" width="38" height="38" />
+      <a class="brand" href="/">
+        <img class="brand-mark" src="/assets/brand/wp-kerala-icon.png" alt="" width="36" height="36" />
         <span class="brand-copy">
           <strong>WP Kerala</strong>
           <small>Frame Studio</small>
         </span>
       </a>
-      {event && (
-        <a class="header-event" href={event.website} target="_blank" rel="noopener noreferrer" aria-label={`${event.title} event site`}>
-          <img src={logo} alt={`${event.title} logo`} />
-        </a>
-      )}
+      <div class="header-actions">
+        {event && (
+          <a class="header-event" href={event.website} target="_blank" rel="noopener noreferrer" aria-label={`${event.title} event site`}>
+            {event.icon && (
+              <img class="logo-mobile" src={event.icon} alt={`${event.title} icon`} width="34" height="34" />
+            )}
+            <img class:list={['logo-light', { 'logo-desktop': Boolean(event.icon) }]} src={event.logo} alt={`${event.title} logo`} width="350" height="130" />
+            <img class:list={['logo-dark', { 'logo-desktop': Boolean(event.icon) }]} src={event.logoDark || event.logo} alt={`${event.title} logo`} width="450" height="165" />
+          </a>
+        )}
+        {event && <span class="header-divider" aria-hidden="true"></span>}
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        </button>
+      </div>
     </header>
     <main>
       <slot />
@@ -56,5 +79,44 @@ const logo = event?.logo ?? '/assets/events/wpfc26/images/logo.png';
       </div>
       <p class="footer-credit">Made with care by <a href="https://ajithrn.com" target="_blank" rel="noopener noreferrer">ajith_rn</a></p>
     </footer>
+    <script>
+      let isMediaBound = false;
+
+      function applyTheme(theme: string, persist = false) {
+        document.documentElement.setAttribute('data-theme', theme);
+        const metaThemeColor = document.getElementById('metaThemeColor');
+        if (metaThemeColor) {
+          metaThemeColor.setAttribute('content', theme === 'dark' ? '#0b1620' : '#f7faf9');
+        }
+        if (persist) {
+          localStorage.setItem('theme', theme);
+        }
+      }
+
+      function setupThemeToggle() {
+        const toggle = document.getElementById('themeToggle');
+        if (toggle && toggle.dataset.ready !== 'true') {
+          toggle.addEventListener('click', () => {
+            const current = document.documentElement.getAttribute('data-theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            const next = current === 'dark' ? 'light' : 'dark';
+            applyTheme(next, true);
+          });
+          toggle.dataset.ready = 'true';
+        }
+
+        const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+        if (mediaQuery && !isMediaBound) {
+          mediaQuery.addEventListener('change', (e) => {
+            if (!localStorage.getItem('theme')) {
+              applyTheme(e.matches ? 'dark' : 'light', false);
+            }
+          });
+          isMediaBound = true;
+        }
+      }
+
+      setupThemeToggle();
+      document.addEventListener('astro:after-swap', setupThemeToggle);
+    </script>
   </body>
 </html>
